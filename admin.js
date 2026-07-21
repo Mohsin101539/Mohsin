@@ -107,6 +107,14 @@ function updateAdminPassword() {
     input.value = '';
 }
 
+function clearAllMessages() {
+    if (confirm('Are you sure you want to clear all received messages?')) {
+        localStorage.removeItem('mohsin_portfolio_messages');
+        showToast('Inbox cleared successfully.', 'success');
+        loadContent();
+    }
+}
+
 function initEventListeners() {
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
@@ -160,6 +168,7 @@ function renderFormSections(data) {
 
     const sections = [
         { key: 'security', title: '🔒 Admin Security & Password Settings' },
+        { key: 'messages', title: '📩 Received Messages Inbox (Contact Form)' },
         { key: 'hero', title: 'Hero Section' },
         { key: 'about', title: 'About Section' },
         { key: 'testimonials', title: 'Testimonials / Client Feedback' },
@@ -185,7 +194,7 @@ function renderFormSections(data) {
             <div class="accordion-header" onclick="toggleAccordion(this)">
                 <span>${sec.title}</span>
                 <div>
-                    ${sec.key !== 'security' ? `
+                    ${sec.key !== 'security' && sec.key !== 'messages' ? `
                     <button type="button" class="btn btn-secondary" onclick="event.stopPropagation(); saveSection('${sec.key}')">
                         <i class="ph ph-floppy-disk"></i> Save Section
                     </button>` : ''}
@@ -225,6 +234,46 @@ function renderSectionBody(key, secData) {
                 <button type="button" class="btn btn-primary-glow" onclick="updateAdminPassword()" style="margin-top: 10px;">
                     <i class="ph ph-floppy-disk"></i> Update Admin Password
                 </button>
+            </div>
+        `;
+    }
+
+    if (key === 'messages') {
+        const msgs = JSON.parse(localStorage.getItem('mohsin_portfolio_messages') || '[]');
+        if (msgs.length === 0) {
+            return `
+                <div style="padding: 20px 0; text-align: center; color: var(--text-muted);">
+                    <i class="ph ph-envelope-open" style="font-size: 2.5rem; color: var(--border-color); margin-bottom: 8px; display: block;"></i>
+                    <p style="font-size: 0.95rem;">No received messages yet.</p>
+                    <span style="font-size: 0.8rem; opacity: 0.7;">Submitted contact form messages from visitors will appear here automatically!</span>
+                </div>
+            `;
+        }
+
+        return `
+            <div style="padding: 10px 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: 8px;">
+                    <span style="color: var(--text-main); font-size: 0.9rem;">Total Messages Received: <strong style="color: var(--cyber-cyan);">${msgs.length}</strong></span>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="clearAllMessages()"><i class="ph ph-trash"></i> Clear Inbox</button>
+                </div>
+                ${msgs.map(m => `
+                    <div class="array-card" style="margin-bottom: 14px; background: rgba(12, 8, 20, 0.9); border: 1px solid var(--border-color);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                            <div>
+                                <strong style="color: var(--primary-color); font-size: 1.05rem; display: block;">${escapeHtml(m.name)}</strong>
+                                <span style="color: var(--cyber-cyan); font-size: 0.85rem; font-family: var(--font-mono);">&lt;${escapeHtml(m.email)}&gt;</span>
+                            </div>
+                            <span style="color: var(--text-muted); font-size: 0.75rem; font-family: var(--font-mono);">${m.date || ''}</span>
+                        </div>
+                        <div style="font-weight: 700; color: var(--text-main); margin-bottom: 8px; font-size: 0.95rem;">
+                            Subject: <span style="color: var(--text-main); font-weight: 500;">${escapeHtml(m.subject)}</span>
+                        </div>
+                        <p style="color: #D1D5DB; font-size: 0.9rem; white-space: pre-wrap; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); line-height: 1.6;">${escapeHtml(m.message)}</p>
+                        <div style="margin-top: 12px; display: flex; gap: 8px;">
+                            <a href="mailto:${escapeHtml(m.email)}?subject=Re: ${encodeURIComponent(m.subject)}" class="btn btn-primary btn-sm" style="text-decoration: none;"><i class="ph ph-reply"></i> Reply to ${escapeHtml(m.name)}</a>
+                        </div>
+                    </div>
+                `).join('')}
             </div>
         `;
     }

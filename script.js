@@ -680,6 +680,21 @@ function initContactForm() {
             submitBtn.innerHTML = 'Sending Message... <i class="ph ph-spinner spin"></i>';
         }
 
+        // Store message locally for Admin Control Panel Inbox
+        try {
+            const newMsg = {
+                id: 'msg_' + Date.now(),
+                name: name,
+                email: email,
+                subject: subject,
+                message: message,
+                date: new Date().toLocaleString()
+            };
+            const existingMsgs = JSON.parse(localStorage.getItem('mohsin_portfolio_messages') || '[]');
+            existingMsgs.unshift(newMsg);
+            localStorage.setItem('mohsin_portfolio_messages', JSON.stringify(existingMsgs));
+        } catch(e) {}
+
         // Send direct email via FormSubmit API to mohsin.diu.cse@gmail.com
         fetch('https://formsubmit.co/ajax/mohsin.diu.cse@gmail.com', {
             method: 'POST',
@@ -701,7 +716,7 @@ function initContactForm() {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
             }
-            showToast('Message sent successfully! Mohsin will reply to your email soon.', 'success');
+            showToast('Message sent successfully! Saved to Admin Inbox.', 'success');
             form.reset();
         })
         .catch(err => {
@@ -712,7 +727,7 @@ function initContactForm() {
             // Fallback: Open Mailto app directly
             const mailtoUrl = `mailto:mohsin.diu.cse@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\n" + message)}`;
             window.location.href = mailtoUrl;
-            showToast('Opening your mail app to send message...', 'success');
+            showToast('Opening mail app... Message also saved to Admin Inbox!', 'success');
             form.reset();
         });
     });
