@@ -581,29 +581,38 @@ function removeArrayItem(secKey, idx) {
     }
 }
 
-// 5. Image File Upload Handler
+// 5. Image File Upload Handler (Hybrid Server Upload + Instant Data URL Fallback for mohsinatic.com)
 function uploadFile(fileInput, hiddenId, previewImgId) {
     const file = fileInput.files[0];
     if (!file) return;
 
-    const formData = new FormData();
-    formData.append('image', file);
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        const hiddenEl = document.getElementById(hiddenId);
+        const previewEl = document.getElementById(previewImgId);
+        
+        if (hiddenEl) hiddenEl.value = dataUrl;
+        if (previewEl) previewEl.src = dataUrl;
+        showToast('Image loaded successfully! Save section to persist.', 'success');
 
-    fetch('/api/upload', {
-        method: 'POST',
-        body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success && data.filePath) {
-            document.getElementById(hiddenId).value = data.filePath;
-            document.getElementById(previewImgId).src = '/' + data.filePath;
-            showToast('Image uploaded successfully!', 'success');
-        } else {
-            showToast(data.error || 'Upload failed.', 'error');
-        }
-    })
-    .catch(() => showToast('Image upload failed.', 'error'));
+        // Attempt background server upload if Node server endpoint exists
+        const formData = new FormData();
+        formData.append('image', file);
+        fetch('/api/upload', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success && data.filePath) {
+                if (hiddenEl) hiddenEl.value = data.filePath;
+                if (previewEl) previewEl.src = '/' + data.filePath;
+            }
+        })
+        .catch(() => {});
+    };
+    reader.readAsDataURL(file);
 }
 
 function uploadDesignCategoryImages(fileInput, catIdx) {
@@ -615,48 +624,21 @@ function uploadDesignCategoryImages(fileInput, catIdx) {
     if (!Array.isArray(localContent.designWork[catIdx].images)) localContent.designWork[catIdx].images = [];
 
     let completed = 0;
-    const errors = [];
-    showToast(`Uploading ${files.length} design image(s)...`, 'info');
-
     files.forEach(file => {
-        const formData = new FormData();
-        formData.append('image', file);
-
-        fetch('/api/upload', {
-            method: 'POST',
-            body: formData
-        })
-        .then(res => res.json())
-        .then(data => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const dataUrl = e.target.result;
+            localContent.designWork[catIdx].images.push(dataUrl);
             completed++;
-            if (data.success && data.filePath) {
-                localContent.designWork[catIdx].images.push(data.filePath);
-            } else {
-                errors.push(data.error || 'Upload failed');
-            }
 
             if (completed === files.length) {
                 renderFormSections(localContent);
                 const body = document.getElementById('body-designWork');
                 if (body) body.classList.add('open');
-
-                if (errors.length) {
-                    showToast(`Uploaded with errors: ${errors.join(', ')}`, 'error');
-                } else {
-                    showToast(`${files.length} image(s) uploaded successfully! Save changes to persist.`, 'success');
-                }
+                showToast(`${files.length} design image(s) loaded successfully! Save changes to persist.`, 'success');
             }
-        })
-        .catch(() => {
-            completed++;
-            errors.push('Network error');
-            if (completed === files.length) {
-                renderFormSections(localContent);
-                const body = document.getElementById('body-designWork');
-                if (body) body.classList.add('open');
-                showToast('Upload finished with network errors.', 'error');
-            }
-        });
+        };
+        reader.readAsDataURL(file);
     });
 }
 
