@@ -385,13 +385,9 @@ function renderSite(data) {
         }
     }
 
-    // J. Brands Marquee
-    if (Array.isArray(data.brands)) {
-        const brandContainer = document.getElementById('brands-marquee');
-        if (brandContainer) {
-            const items = data.brands.concat(data.brands);
-            brandContainer.innerHTML = items.map(b => `<div class="brand-item"><img src="${b}"></div>`).join('');
-        }
+    // J. Brands Marquee (Smooth Infinite Loop)
+    if (Array.isArray(data.brands) && data.brands.length > 0) {
+        renderMarquee('brands-marquee', data.brands, 'brand-avatar-img', 110);
     }
 
     // K. Why Choose Me
