@@ -138,26 +138,43 @@ function initEventListeners() {
     }
 }
 
-// 2. Fetch Content from API or Static content.json
+// 2. Fetch Content from LocalStorage, API, or Static content.json
 function loadContent() {
+    // 1. Check local storage overrides first so Admin forms stay 100% in sync on page refresh
+    const savedLocal = localStorage.getItem('mohsin_portfolio_content');
+    if (savedLocal) {
+        try {
+            const parsed = JSON.parse(savedLocal);
+            localContent = parsed;
+            renderFormSections(parsed);
+        } catch(e) {}
+    }
+
+    // 2. Fetch from API or content.json to sync initial state or fill missing fields
     fetch('/api/content')
         .then(res => {
             if (!res.ok) throw new Error('Static host');
             return res.json();
         })
         .then(data => {
-            localContent = data;
-            renderFormSections(data);
+            if (!savedLocal) {
+                localContent = data;
+                renderFormSections(data);
+            }
         })
         .catch(() => {
             // Fallback for static web hosts (e.g. mohsinatic.com)
             fetch('../content.json')
                 .then(res => res.json())
                 .then(data => {
-                    localContent = data;
-                    renderFormSections(data);
+                    if (!savedLocal) {
+                        localContent = data;
+                        renderFormSections(data);
+                    }
                 })
-                .catch(() => showToast('Failed to fetch site content.', 'error'));
+                .catch(() => {
+                    if (!savedLocal) showToast('Failed to fetch site content.', 'error');
+                });
         });
 }
 
