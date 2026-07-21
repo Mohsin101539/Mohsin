@@ -32,10 +32,13 @@ app.use('/api', authRoutes);
 app.use('/api/content', contentRoutes);
 app.use('/api/upload', uploadRoutes);
 
-// Serve static frontend assets and admin app
+// Serve Admin Panel static assets cleanly
+app.use('/admin', express.static(path.join(PUBLIC_DIR, 'admin')));
+
+// Serve root static frontend assets
 app.use(express.static(PUBLIC_DIR));
 
-// Serve Admin Panel explicitly on /admin route
+// Admin route fallback to admin index.html
 app.get('/admin*', (req, res) => {
     res.sendFile(path.join(PUBLIC_DIR, 'admin', 'index.html'));
 });
