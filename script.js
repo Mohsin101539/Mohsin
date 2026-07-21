@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initViewSwitcher();
     initLightboxModal();
     init3DCardTilt();
+    initContactForm();
     loadSiteContent();
 });
 
@@ -655,6 +656,64 @@ function init3DCardTilt() {
                 card.style.transform = '';
                 card.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
             }
+        });
+    });
+}
+
+// Automatic Direct Email Dispatcher to mohsin.diu.cse@gmail.com
+function initContactForm() {
+    const form = document.getElementById('public-contact-form');
+    if (!form) return;
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn ? submitBtn.innerHTML : 'Send Message';
+        
+        const name = document.getElementById('contact-name').value.trim();
+        const email = document.getElementById('contact-email').value.trim();
+        const subject = document.getElementById('contact-subject').value.trim();
+        const message = document.getElementById('contact-message').value.trim();
+
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Sending Message... <i class="ph ph-spinner spin"></i>';
+        }
+
+        // Send direct email via FormSubmit API to mohsin.diu.cse@gmail.com
+        fetch('https://formsubmit.co/ajax/mohsin.diu.cse@gmail.com', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                _replyto: email,
+                _subject: `[Portfolio Inquiry] ${subject}`,
+                message: message
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+            showToast('Message sent successfully! Mohsin will reply to your email soon.', 'success');
+            form.reset();
+        })
+        .catch(err => {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+            // Fallback: Open Mailto app directly
+            const mailtoUrl = `mailto:mohsin.diu.cse@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\n" + message)}`;
+            window.location.href = mailtoUrl;
+            showToast('Opening your mail app to send message...', 'success');
+            form.reset();
         });
     });
 }
