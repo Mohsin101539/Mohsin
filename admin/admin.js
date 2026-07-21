@@ -47,8 +47,9 @@ function handleLoginSubmit(e) {
     if (e) e.preventDefault();
     const passwordInput = document.getElementById('admin-password');
     const password = passwordInput ? passwordInput.value.trim() : '';
+    const customPass = localStorage.getItem('mohsin_admin_password') || 'admin123';
 
-    if (password === 'admin123' || password === 'admin' || password.length > 0) {
+    if (password === customPass || password === 'admin123' || password === 'admin') {
         sessionStorage.setItem('mohsin_admin_auth', 'true');
         localStorage.setItem('mohsin_admin_auth', 'true');
         showDashboard();
@@ -61,8 +62,49 @@ function handleLoginSubmit(e) {
             body: JSON.stringify({ password })
         }).catch(() => {});
     } else {
-        showToast('Please enter password.', 'error');
+        showToast('Invalid password. Please try again.', 'error');
     }
+}
+
+function togglePasswordVisibility() {
+    const input = document.getElementById('admin-password');
+    const btn = document.getElementById('toggle-pass-btn');
+    if (!input || !btn) return;
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.className = 'ph ph-eye-slash input-icon-right';
+    } else {
+        input.type = 'password';
+        btn.className = 'ph ph-eye input-icon-right';
+    }
+}
+
+function toggleNewPassVisibility() {
+    const input = document.getElementById('new-admin-password');
+    if (!input) return;
+    input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+function updateAdminPassword() {
+    const input = document.getElementById('new-admin-password');
+    const newPass = input ? input.value.trim() : '';
+
+    if (!newPass) {
+        showToast('Please enter a new password.', 'error');
+        return;
+    }
+
+    localStorage.setItem('mohsin_admin_password', newPass);
+    sessionStorage.setItem('mohsin_admin_password', newPass);
+
+    fetch('/api/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newPassword: newPass })
+    }).catch(() => {});
+
+    showToast('Admin password updated successfully!', 'success');
+    input.value = '';
 }
 
 function initEventListeners() {
@@ -117,6 +159,7 @@ function renderFormSections(data) {
     container.innerHTML = '';
 
     const sections = [
+        { key: 'security', title: '🔒 Admin Security & Password Settings' },
         { key: 'hero', title: 'Hero Section' },
         { key: 'about', title: 'About Section' },
         { key: 'testimonials', title: 'Testimonials / Client Feedback' },
@@ -133,7 +176,7 @@ function renderFormSections(data) {
     ];
 
     sections.forEach(sec => {
-        const secData = data[sec.key];
+        const secData = data[sec.key] || {};
         const card = document.createElement('div');
         card.className = 'accordion-section';
 
@@ -141,9 +184,10 @@ function renderFormSections(data) {
             <div class="accordion-header" onclick="toggleAccordion(this)">
                 <span>${sec.title}</span>
                 <div>
+                    ${sec.key !== 'security' ? `
                     <button type="button" class="btn btn-secondary" onclick="event.stopPropagation(); saveSection('${sec.key}')">
                         <i class="ph ph-floppy-disk"></i> Save Section
-                    </button>
+                    </button>` : ''}
                     <i class="ph ph-caret-down" style="margin-left: 10px;"></i>
                 </div>
             </div>
@@ -163,6 +207,27 @@ function toggleAccordion(headerEl) {
 
 // 4. Render Section Form Bodies
 function renderSectionBody(key, secData) {
+    if (key === 'security') {
+        return `
+            <div style="max-width: 500px; padding: 10px 0;">
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">
+                    Change your admin passcode below. Updating your password immediately updates your security access across local sessions and static domain environments.
+                </p>
+                <div class="form-group">
+                    <label>New Admin Password</label>
+                    <div class="password-input-wrapper">
+                        <i class="ph ph-key input-icon-left"></i>
+                        <input type="password" id="new-admin-password" placeholder="Enter new password..." style="height: 48px;">
+                        <i class="ph ph-eye input-icon-right" onclick="toggleNewPassVisibility()" title="Toggle visibility"></i>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary-glow" onclick="updateAdminPassword()" style="margin-top: 10px;">
+                    <i class="ph ph-floppy-disk"></i> Update Admin Password
+                </button>
+            </div>
+        `;
+    }
+
     if (!secData) return '<p>No data configured.</p>';
 
     if (key === 'hero') {
