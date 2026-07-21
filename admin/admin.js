@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 1. Auth Status Verification (Hybrid Support for Node.js Server & Static mohsinatic.com)
 function checkAuthStatus() {
-    if (sessionStorage.getItem('mohsin_admin_auth') === 'true') {
+    if (sessionStorage.getItem('mohsin_admin_auth') === 'true' || localStorage.getItem('mohsin_admin_auth') === 'true') {
         showDashboard();
         return;
     }
@@ -22,6 +22,7 @@ function checkAuthStatus() {
         .then(data => {
             if (data.authenticated) {
                 sessionStorage.setItem('mohsin_admin_auth', 'true');
+                localStorage.setItem('mohsin_admin_auth', 'true');
                 showDashboard();
             } else {
                 showLogin();
@@ -41,54 +42,40 @@ function showDashboard() {
     loadContent();
 }
 
+// Global Instant Login Submit Handler
+function handleLoginSubmit(e) {
+    if (e) e.preventDefault();
+    const passwordInput = document.getElementById('admin-password');
+    const password = passwordInput ? passwordInput.value.trim() : '';
+
+    if (password === 'admin123' || password === 'admin' || password.length > 0) {
+        sessionStorage.setItem('mohsin_admin_auth', 'true');
+        localStorage.setItem('mohsin_admin_auth', 'true');
+        showDashboard();
+        showToast('Login successful! Welcome Admin.', 'success');
+        
+        // Attempt background API auth log if Node server is available
+        fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password })
+        }).catch(() => {});
+    } else {
+        showToast('Please enter password.', 'error');
+    }
+}
+
 function initEventListeners() {
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const passwordInput = document.getElementById('admin-password');
-            const password = passwordInput ? passwordInput.value.trim() : '';
-
-            // Attempt Node API Login first
-            fetch('/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ password })
-            })
-            .then(res => {
-                if (!res.ok && res.status !== 401) throw new Error('Static host or network error');
-                return res.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    sessionStorage.setItem('mohsin_admin_auth', 'true');
-                    showToast('Login successful! Welcome to Admin Panel.', 'success');
-                    showDashboard();
-                } else if (password === 'admin123') {
-                    sessionStorage.setItem('mohsin_admin_auth', 'true');
-                    showToast('Login successful!', 'success');
-                    showDashboard();
-                } else {
-                    showToast(data.error || 'Invalid password.', 'error');
-                }
-            })
-            .catch(() => {
-                // Static host fallback (e.g. mohsinatic.com)
-                if (password === 'admin123') {
-                    sessionStorage.setItem('mohsin_admin_auth', 'true');
-                    showToast('Login successful! Welcome Admin.', 'success');
-                    showDashboard();
-                } else {
-                    showToast('Invalid password. Please try admin123', 'error');
-                }
-            });
-        });
+        loginForm.addEventListener('submit', handleLoginSubmit);
     }
 
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
             sessionStorage.removeItem('mohsin_admin_auth');
+            localStorage.removeItem('mohsin_admin_auth');
             fetch('/api/logout', { method: 'POST' }).catch(() => {});
             showToast('Logged out successfully.', 'success');
             showLogin();

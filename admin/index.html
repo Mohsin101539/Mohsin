@@ -15,7 +15,7 @@
     <!-- 1. LOGIN VIEW -->
     <div id="login-view" class="login-container">
         <h2>Admin Login<span class="dot">.</span></h2>
-        <form id="login-form">
+        <form id="login-form" onsubmit="handleLoginSubmit(event); return false;">
             <div class="form-group">
                 <label for="admin-password">Admin Password</label>
                 <input type="password" id="admin-password" placeholder="Enter password..." required autocomplete="current-password">
@@ -47,6 +47,6 @@
     <!-- Toast Notification -->
     <div id="toast" class="toast toast-success" style="display: none;">Changes saved successfully!</div>
 
-    <script src="admin.js?v=2.1"></script>
+    <script src="admin.js?v=2.2"></script>
 </body>
 </html>
