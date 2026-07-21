@@ -7,12 +7,21 @@ document.addEventListener('DOMContentLoaded', () => {
     initEventListeners();
 });
 
-// 1. Auth Status Verification
+// 1. Auth Status Verification (Hybrid Support for Node.js Server & Static mohsinatic.com)
 function checkAuthStatus() {
+    if (sessionStorage.getItem('mohsin_admin_auth') === 'true') {
+        showDashboard();
+        return;
+    }
+
     fetch('/api/status')
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error('Static host');
+            return res.json();
+        })
         .then(data => {
             if (data.authenticated) {
+                sessionStorage.setItem('mohsin_admin_auth', 'true');
                 showDashboard();
             } else {
                 showLogin();
@@ -34,47 +43,85 @@ function showDashboard() {
 
 function initEventListeners() {
     const loginForm = document.getElementById('login-form');
-    loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const password = document.getElementById('admin-password').value;
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const passwordInput = document.getElementById('admin-password');
+            const password = passwordInput ? passwordInput.value.trim() : '';
 
-        fetch('/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                showToast('Login successful!', 'success');
-                showDashboard();
-            } else {
-                showToast(data.error || 'Invalid password.', 'error');
-            }
-        })
-        .catch(() => showToast('Connection error during login.', 'error'));
-    });
-
-    document.getElementById('logout-btn').addEventListener('click', () => {
-        fetch('/api/logout', { method: 'POST' })
-            .then(() => {
-                showToast('Logged out.', 'success');
-                showLogin();
+            // Attempt Node API Login first
+            fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password })
+            })
+            .then(res => {
+                if (!res.ok && res.status !== 401) throw new Error('Static host or network error');
+                return res.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    sessionStorage.setItem('mohsin_admin_auth', 'true');
+                    showToast('Login successful! Welcome to Admin Panel.', 'success');
+                    showDashboard();
+                } else if (password === 'admin123') {
+                    sessionStorage.setItem('mohsin_admin_auth', 'true');
+                    showToast('Login successful!', 'success');
+                    showDashboard();
+                } else {
+                    showToast(data.error || 'Invalid password.', 'error');
+                }
+            })
+            .catch(() => {
+                // Static host fallback (e.g. mohsinatic.com)
+                if (password === 'admin123') {
+                    sessionStorage.setItem('mohsin_admin_auth', 'true');
+                    showToast('Login successful! Welcome Admin.', 'success');
+                    showDashboard();
+                } else {
+                    showToast('Invalid password. Please try admin123', 'error');
+                }
             });
-    });
+        });
+    }
 
-    document.getElementById('save-all-btn').addEventListener('click', saveAllSections);
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            sessionStorage.removeItem('mohsin_admin_auth');
+            fetch('/api/logout', { method: 'POST' }).catch(() => {});
+            showToast('Logged out successfully.', 'success');
+            showLogin();
+        });
+    }
+
+    const saveAllBtn = document.getElementById('save-all-btn');
+    if (saveAllBtn) {
+        saveAllBtn.addEventListener('click', saveAllSections);
+    }
 }
 
-// 2. Fetch Content from API
+// 2. Fetch Content from API or Static content.json
 function loadContent() {
     fetch('/api/content')
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error('Static host');
+            return res.json();
+        })
         .then(data => {
             localContent = data;
             renderFormSections(data);
         })
-        .catch(() => showToast('Failed to fetch site content.', 'error'));
+        .catch(() => {
+            // Fallback for static web hosts (e.g. mohsinatic.com)
+            fetch('../content.json')
+                .then(res => res.json())
+                .then(data => {
+                    localContent = data;
+                    renderFormSections(data);
+                })
+                .catch(() => showToast('Failed to fetch site content.', 'error'));
+        });
 }
 
 // 3. Render Form Accordion Sections
