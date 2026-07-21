@@ -55,10 +55,11 @@ function handleLoginSubmit(e) {
         showDashboard();
         showToast('Login successful! Welcome Admin.', 'success');
         
-        // Attempt background API auth log if Node server is available
+        // Background API auth login to establish server cookie
         fetch('/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
             body: JSON.stringify({ password })
         }).catch(() => {});
     } else {
@@ -140,40 +141,41 @@ function initEventListeners() {
 
 // 2. Fetch Content from LocalStorage, API, or Static content.json
 function loadContent() {
-    // 1. Check local storage overrides first so Admin forms stay 100% in sync on page refresh
-    const savedLocal = localStorage.getItem('mohsin_portfolio_content');
-    if (savedLocal) {
-        try {
-            const parsed = JSON.parse(savedLocal);
-            localContent = parsed;
-            renderFormSections(parsed);
-        } catch(e) {}
-    }
+    const cacheBuster = '?v=' + Date.now();
 
-    // 2. Fetch from API or content.json to sync initial state or fill missing fields
-    fetch('/api/content')
+    fetch('/api/content' + cacheBuster)
         .then(res => {
             if (!res.ok) throw new Error('Static host');
             return res.json();
         })
         .then(data => {
-            if (!savedLocal) {
-                localContent = data;
-                renderFormSections(data);
-            }
+            localContent = data;
+            renderFormSections(data);
+            try {
+                localStorage.setItem('mohsin_portfolio_content', JSON.stringify(data));
+            } catch(e) {}
         })
         .catch(() => {
-            // Fallback for static web hosts (e.g. mohsinatic.com)
-            fetch('../content.json')
+            fetch('../content.json' + cacheBuster)
                 .then(res => res.json())
                 .then(data => {
-                    if (!savedLocal) {
-                        localContent = data;
-                        renderFormSections(data);
-                    }
+                    localContent = data;
+                    renderFormSections(data);
+                    try {
+                        localStorage.setItem('mohsin_portfolio_content', JSON.stringify(data));
+                    } catch(e) {}
                 })
                 .catch(() => {
-                    if (!savedLocal) showToast('Failed to fetch site content.', 'error');
+                    const savedLocal = localStorage.getItem('mohsin_portfolio_content');
+                    if (savedLocal) {
+                        try {
+                            const parsed = JSON.parse(savedLocal);
+                            localContent = parsed;
+                            renderFormSections(parsed);
+                        } catch(e) {}
+                    } else {
+                        showToast('Failed to fetch site content.', 'error');
+                    }
                 });
         });
 }
@@ -723,17 +725,18 @@ function saveSection(secKey) {
     fetch('/api/content', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ [secKey]: payloadSlice })
     })
     .then(res => res.json())
     .then(data => {
         if (data.success) {
-            showToast(`Section "${secKey}" saved & synced!`, 'success');
+            showToast(`Section "${secKey}" saved & synced to server!`, 'success');
         } else {
-            showToast(`Saved section "${secKey}" locally.`, 'success');
+            showToast(`Saved section "${secKey}" locally. Export content.json for static sites.`, 'warning');
         }
     })
-    .catch(() => showToast(`Section "${secKey}" saved locally!`, 'success'));
+    .catch(() => showToast(`Section "${secKey}" saved locally! Export content.json for static deployment.`, 'warning'));
 }
 
 function saveAllSections() {
@@ -750,17 +753,18 @@ function saveAllSections() {
     fetch('/api/content', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(fullPayload)
     })
     .then(res => res.json())
     .then(data => {
         if (data.success) {
-            showToast('All site sections saved & synced successfully!', 'success');
+            showToast('All site sections saved & synced to server successfully!', 'success');
         } else {
-            showToast('All sections saved locally!', 'success');
+            showToast('All sections saved locally! Remember to Export content.json if using static hosting.', 'warning');
         }
     })
-    .catch(() => showToast('All sections saved locally!', 'success'));
+    .catch(() => showToast('All sections saved locally! Remember to Export content.json if using static hosting.', 'warning'));
 }
 
 function exportContentJson() {
@@ -772,6 +776,40 @@ function exportContentJson() {
     downloadAnchor.click();
     downloadAnchor.remove();
     showToast('Downloaded updated content.json!', 'success');
+}
+
+function importContentJson(fileInput) {
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const parsed = JSON.parse(e.target.result);
+            localContent = parsed;
+            localStorage.setItem('mohsin_portfolio_content', JSON.stringify(parsed));
+            renderFormSections(parsed);
+            
+            fetch('/api/content', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify(parsed)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('Imported & synced content.json to server!', 'success');
+                } else {
+                    showToast('Imported content.json locally!', 'success');
+                }
+            })
+            .catch(() => showToast('Imported content.json locally!', 'success'));
+        } catch(err) {
+            showToast('Invalid JSON file format.', 'error');
+        }
+    };
+    reader.readAsText(file);
 }
 
 function collectSectionData(secKey) {

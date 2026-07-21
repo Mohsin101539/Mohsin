@@ -10,35 +10,6 @@
     <link rel="icon" type="image/png" href="favicon.png?v=3.0">
     <link rel="stylesheet" href="/admin/admin.css?v=3.0">
     <link rel="stylesheet" href="admin.css?v=3.0">
-    <script>
-    function handleLoginSubmit(e) {
-        if (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-        var passInput = document.getElementById('admin-password');
-        var pass = passInput ? passInput.value.trim() : '';
-        var customPass = localStorage.getItem('mohsin_admin_password') || 'admin123';
-
-        if (pass === customPass || pass === 'admin123' || pass === 'admin') {
-            sessionStorage.setItem('mohsin_admin_auth', 'true');
-            localStorage.setItem('mohsin_admin_auth', 'true');
-            var loginView = document.getElementById('login-view');
-            var dashView = document.getElementById('dashboard-view');
-            if (loginView) loginView.style.display = 'none';
-            if (dashView) dashView.style.display = 'block';
-            if (window.loadContent) {
-                window.loadContent();
-            }
-            if (window.showToast) {
-                window.showToast('Login successful! Welcome Admin.', 'success');
-            }
-        } else {
-            alert('Invalid password! Default passcode is: admin123');
-        }
-        return false;
-    }
-    </script>
 </head>
 <body>
 
@@ -75,9 +46,13 @@
                 <h1>Portfolio Admin Control Panel<span class="dot">.</span></h1>
                 <span style="font-size: 0.85rem; color: var(--text-muted);">Self-Service Content Management System</span>
             </div>
-            <div style="display: flex; gap: 10px;">
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                 <button id="save-all-btn" class="btn"><i class="ph ph-floppy-disk"></i> Save All Changes</button>
                 <button type="button" onclick="exportContentJson()" class="btn btn-secondary" title="Download updated content.json file for server deployment"><i class="ph ph-download-simple"></i> Export content.json</button>
+                <label class="btn btn-secondary" style="cursor: pointer; margin: 0; display: inline-flex; align-items: center; gap: 6px;" title="Import a content.json file into admin panel">
+                    <i class="ph ph-upload-simple"></i> Import content.json
+                    <input type="file" accept=".json" onchange="importContentJson(this)" style="display: none;">
+                </label>
                 <button id="logout-btn" class="btn btn-secondary"><i class="ph ph-sign-out"></i> Logout</button>
             </div>
         </header>
@@ -90,7 +65,6 @@
     <!-- Toast Notification -->
     <div id="toast" class="toast toast-success" style="display: none;">Changes saved successfully!</div>
 
-    <script src="/admin/admin.js?v=3.0"></script>
     <script src="admin.js?v=3.0"></script>
 </body>
 </html>

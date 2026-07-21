@@ -83,27 +83,32 @@ function initNavigation() {
     const navItems = document.querySelectorAll('.nav-links a');
 
     if (menuToggle && navLinks) {
-        menuToggle.addEventListener('click', () => {
-            const isOpen = navLinks.style.display === 'flex';
-            navLinks.style.display = isOpen ? 'none' : 'flex';
-            if (!isOpen) {
-                navLinks.style.flexDirection = 'column';
-                navLinks.style.position = 'absolute';
-                navLinks.style.top = '80px';
-                navLinks.style.left = '0';
-                navLinks.style.width = '100%';
-                navLinks.style.background = '#0a0a0a';
-                navLinks.style.padding = '20px';
-                navLinks.style.zIndex = '999';
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isActive = navLinks.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            if (icon) {
+                icon.className = isActive ? 'ph ph-x' : 'ph ph-list';
+            }
+        });
+
+        // Close mobile drawer when clicking outside
+        document.addEventListener('click', (e) => {
+            if (navLinks.classList.contains('active') && !navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+                navLinks.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                if (icon) icon.className = 'ph ph-list';
             }
         });
     }
 
-    // Close mobile menu on click & smooth scroll
+    // Close mobile menu on link click
     navItems.forEach(item => {
         item.addEventListener('click', () => {
-            if (window.innerWidth <= 768 && navLinks) {
-                navLinks.style.display = 'none';
+            if (navLinks) {
+                navLinks.classList.remove('active');
+                const icon = menuToggle ? menuToggle.querySelector('i') : null;
+                if (icon) icon.className = 'ph ph-list';
             }
         });
     });
@@ -148,23 +153,33 @@ function initScrollObserver() {
 
 // 3. Load Content from content.json & Render
 function loadSiteContent() {
-    const savedLocal = localStorage.getItem('mohsin_portfolio_content');
-    if (savedLocal) {
-        try {
-            const parsed = JSON.parse(savedLocal);
-            renderSite(parsed);
-        } catch(e) {}
-    }
+    const cacheBuster = '?v=' + Date.now();
 
-    fetch('/content.json')
+    // Fetch single source of truth from server (/api/content or /content.json) with cache buster
+    fetch('/api/content' + cacheBuster)
         .then(res => {
-            if (!res.ok) throw new Error('Failed to load content.json');
+            if (!res.ok) return fetch('/content.json' + cacheBuster);
+            return res;
+        })
+        .then(res => {
+            if (!res.ok) throw new Error('Failed to load content');
             return res.json();
         })
         .then(data => {
-            if (!savedLocal) renderSite(data);
+            renderSite(data);
+            try {
+                localStorage.setItem('mohsin_portfolio_content', JSON.stringify(data));
+            } catch(e) {}
         })
-        .catch(err => console.warn('Using fallback inline HTML:', err));
+        .catch(err => {
+            console.warn('Using fallback cached or inline content:', err);
+            const savedLocal = localStorage.getItem('mohsin_portfolio_content');
+            if (savedLocal) {
+                try {
+                    renderSite(JSON.parse(savedLocal));
+                } catch(e) {}
+            }
+        });
 }
 
 function renderSite(data) {

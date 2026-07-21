@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const mongoose = require('mongoose');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const authRoutes = require('./routes/auth');
@@ -11,6 +12,15 @@ const uploadRoutes = require('./routes/upload');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, '..');
+
+// Initialize Database Connection if MONGODB_URI is provided
+if (process.env.MONGODB_URI) {
+    mongoose.connect(process.env.MONGODB_URI)
+        .then(() => console.log('🍃 Connected to MongoDB Cloud Database successfully.'))
+        .catch(err => console.warn('⚠️  MongoDB Connection Error (Using content.json fallback):', err.message));
+} else {
+    console.log('ℹ️  MONGODB_URI not configured in server/.env. Using content.json file storage.');
+}
 
 // Middlewares
 app.use(express.json({ limit: '10mb' }));
