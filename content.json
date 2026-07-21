@@ -1,0 +1,376 @@
+{
+  "hero": {
+    "badge": "GRAPHIC DESIGNER & CS STUDENT",
+    "headline": "Designing Logic, Coding Creativity.",
+    "subtitle": "Merging technical expertise in C++, Java, & Python with 5-star creative design skills.",
+    "exploreDevText": "Explore as Developer",
+    "exploreDesignText": "Explore as Designer"
+  },
+  "about": {
+    "sectionTitle": "Who I Am",
+    "roleTitle": "MD. MOHSIN - Graphics Designer & Computer Science Student at DIU",
+    "profileImg": "images/Mohsin.jpg",
+    "experienceBadgeNumber": "3+",
+    "experienceBadgeText": "Years Experience",
+    "bioParagraphs": [
+      "I am <strong>Md. Mohsin</strong>, currently in my last semester maintaining a strong academic record. I bridge the gap between logic and art.",
+      "Skilled in <strong>C++, Java, and Python</strong>, I’ve excelled in coding contests and led impactful projects like <em>Buskoi</em>, <em>Utshobkori</em>, and <em>Niramoy</em>.",
+      "Simultaneously, I am a <strong>Level 1 Graphic Designer</strong> (5 Stars on Fiverr) with a growing interest in motion graphics. I am known for honesty, leadership, and delivering creative solutions."
+    ],
+    "skillsMini": [
+      {
+        "icon": "ph-code",
+        "text": "C++ / Java"
+      },
+      {
+        "icon": "ph-paint-brush",
+        "text": "Graphic Design"
+      },
+      {
+        "icon": "ph-video",
+        "text": "Motion Graphics"
+      }
+    ]
+  },
+  "testimonials": [
+    {
+      "name": "voiceofprogress",
+      "country": "Germany",
+      "flag": "🇩🇪",
+      "stars": 5,
+      "quote": "Perfect. All wishes were fulfilled and he delivered super fast. I will book him again!",
+      "id": "t_1"
+    },
+    {
+      "name": "mipiti48",
+      "country": "United States",
+      "flag": "🇺🇸",
+      "stars": 5,
+      "quote": "Excellent experience working with Mohsin. Followed my instructions and the outcome was excellent as usual.",
+      "id": "t_2"
+    },
+    {
+      "name": "yudula",
+      "country": "Sri Lanka",
+      "flag": "🇱🇰",
+      "stars": 5,
+      "quote": "Amazing work! Even though Mohsin had fewer reviews, the designs caught my eye. Fast and easy to work with.",
+      "id": "t_3"
+    },
+    {
+      "name": "mildredwilli591",
+      "country": "United States",
+      "flag": "🇺🇸",
+      "stars": 5,
+      "quote": "I was very pleased with the work I received! He was professional and had great communication.",
+      "id": "t_4"
+    }
+  ],
+  "education": [
+    {
+      "degree": "B.Sc. in CSE",
+      "institution": "Daffodil International University",
+      "period": "2022 - Present",
+      "description": "Currently completing my Bachelor's in Computer Science and Engineering. Maintaining a strong academic record while leading projects in C++, Java, and Python.",
+      "status": "Currently Studying (8th Semester)",
+      "gpa": ""
+    },
+    {
+      "degree": "Higher Secondary Certificate (HSC)",
+      "institution": "Milestone College",
+      "period": "2020 - 2021",
+      "description": "Completed college education with a focus on Science.",
+      "status": "",
+      "gpa": "GPA: 5.00 / 5.00"
+    },
+    {
+      "degree": "Secondary School Certificate (SSC)",
+      "institution": "Malekabanu Adarsha Bidyaniketan",
+      "period": "2018 - 2019",
+      "description": "Completed high school with distinction.",
+      "status": "",
+      "gpa": "GPA: 4.78 / 5.00"
+    },
+    {
+      "degree": "Junior School Certificate (JSC)",
+      "institution": "Green Lawn School and College",
+      "period": "2016",
+      "description": "Early academic foundation with a perfect score.",
+      "status": "",
+      "gpa": "GPA: 5.00 / 5.00"
+    }
+  ],
+  "projects": [
+    {
+      "title": "MIZAN APP",
+      "stack": "React 19 • TypeScript • Firebase • Tailwind CSS v4 • Google GenAI",
+      "description": "Mizan is a holistic, AI-powered lifestyle and productivity web application designed to help users harmonize their spiritual practices, physical health, and career goals. Built with React, TypeScript, and Firebase, Mizan features geo-aware prayer timing algorithms, custom workout and nutrition engines, streak-based gamification, and AI-driven behavioral analytics powered by Google Gemini to deliver personalized insights across all pillars of daily life.",
+      "liveLink": "https://mizan.mohsinatic.com/",
+      "codeLink": "https://github.com/Mohsinatic",
+      "featured": false,
+      "featuredBadge": "Featured Innovation",
+      "image": "images/screenshot_38-1784657152866-5132.png"
+    },
+    {
+      "title": "Niramoy",
+      "stack": "Python • Django • AI",
+      "description": "Healthcare assistant focusing on rural telemedicine and AI diagnostic triage.",
+      "liveLink": "#",
+      "codeLink": "https://github.com/Mohsinatic/Niramoy",
+      "featured": true,
+      "featuredBadge": "Featured Innovation",
+      "image": "images/1__1_-1784629188983-8771.jpg"
+    },
+    {
+      "title": "Buskoi",
+      "stack": "Java • Firebase • Android Studio",
+      "description": "A real-time bus tracking application for university students.",
+      "liveLink": "",
+      "codeLink": "https://www.figma.com/design/yLTlcfH6jtNCTHyCu6fqFM/Bus-koi-final?node-id=0-1&p=f",
+      "featured": false,
+      "featuredBadge": "Featured Innovation",
+      "image": "images/buskoi.png"
+    },
+    {
+      "title": "Utshobkori",
+      "stack": "C++ • Qt Framework",
+      "description": "Event management system with budget tracking features.",
+      "liveLink": "",
+      "codeLink": "https://www.behance.net/gallery/222082505/UtshobKoriCom-Seller-Admin-Dashboard",
+      "featured": false,
+      "featuredBadge": "Featured Innovation",
+      "image": "images/Screenshot_22.png"
+    }
+  ],
+  "designWork": [
+    {
+      "id": "dw_1",
+      "title": "High-CTR YouTube Thumbnails (Set 1)",
+      "cardHeight": 220,
+      "images": [
+        "images/thumbnail 1.png",
+        "images/thumbnail 2.png",
+        "images/thumbnail 3.png",
+        "images/thumbnail 4.png",
+        "images/thumbnail 5.png"
+      ]
+    },
+    {
+      "id": "dw_2",
+      "title": "High-CTR YouTube Thumbnails (Set 2)",
+      "cardHeight": 220,
+      "images": [
+        "images/Screenshot_1.png",
+        "images/Screenshot_2.png",
+        "images/Screenshot_3.png",
+        "images/Screenshot_5.png",
+        "images/Screenshot_4.png"
+      ]
+    },
+    {
+      "id": "dw_3",
+      "title": "Facebook Cover & Header Designs",
+      "cardHeight": 220,
+      "images": [
+        "images/Screenshot_7.png",
+        "images/Screenshot_8.png",
+        "images/Screenshot_9.png",
+        "images/Screenshot_10.png",
+        "images/Screenshot_11.png",
+        "images/Screenshot_12.png"
+      ]
+    },
+    {
+      "id": "dw_4",
+      "title": "YouTube Channel Art & Banners",
+      "cardHeight": 220,
+      "images": [
+        "images/Screenshot_17.png",
+        "images/Screenshot_13.png",
+        "images/Screenshot_14.png",
+        "images/Screenshot_15.png"
+      ]
+    },
+    {
+      "id": "dw_5",
+      "title": "Poster & Event Banner Designs",
+      "cardHeight": 420,
+      "images": [
+        "images/Screenshot_18.png",
+        "images/Screenshot_19.png",
+        "images/Screenshot_20.png",
+        "images/Screenshot_21.png"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "role": "Graphic Designing Expert",
+      "period": "2021 - Present",
+      "rating": "",
+      "description": "I have <strong>3 years of experience</strong> in graphic design, particularly known as an Expert Thumbnail Designer.",
+      "clients": [
+        "Fahmid Al Nayem (Owner of StepUp)",
+        "Shahrose Fardi (Problemki Academy)",
+        "Nayeem (Eustudy Support)",
+        "Habibur Rahman (SEO Expert)"
+      ],
+      "gigs": [],
+      "btnText": "View Behance",
+      "btnLink": "https://www.behance.net/mohsinatic",
+      "image": "images/screenshot_39-1784659857372-4593.png"
+    },
+    {
+      "role": "Fiverr Level 1 Seller",
+      "period": "Active Seller",
+      "rating": "5 Star Rating (83 Reviews)",
+      "description": "Started my Fiverr journey with impactful results. My services include high-end Thumbnail Design, Parallax Animation, and Photo Art Gallery creation.",
+      "clients": [],
+      "gigs": [
+        "Thumbnail Design",
+        "Parallax 3D",
+        "Gig Images"
+      ],
+      "btnText": "Visit Fiverr Profile",
+      "btnLink": "https://www.fiverr.com/designworldmn?public_mode=true",
+      "image": "images/fiverr-1784659712969-926.jpg"
+    }
+  ],
+  "stats": {
+    "projectsCompleted": "10k+",
+    "satisfiedClients": "200+",
+    "socialAudience": "50k+"
+  },
+  "coursePromo": {
+    "title": "Graphic Design Complete Course",
+    "description": "Master Photoshop, Illustrator, and Creative Design Principles. Join thousands of students learning to monetize their creativity.",
+    "enrollLink": "https://youtube.com/playlist?list=PLXI8PfIE_h28iGYueSAveha3-o3MBdxjv&si=Z0kCerxTkuZtY1nb",
+    "image": "images/Screenshot_23.png"
+  },
+  "brands": [
+    "https://picsum.photos/100/100?random=60",
+    "https://picsum.photos/100/100?random=61",
+    "https://picsum.photos/100/100?random=62",
+    "https://picsum.photos/100/100?random=63",
+    "https://picsum.photos/100/100?random=64",
+    "https://picsum.photos/100/100?random=65"
+  ],
+  "whyChooseMe": [
+    {
+      "icon": "ph-rocket-launch",
+      "title": "Fast Delivery",
+      "description": "Get high quality designs delivered quickly without compromising on creativity or detail."
+    },
+    {
+      "icon": "ph-arrows-clockwise",
+      "title": "Unlimited Revisions",
+      "description": "Your satisfaction is my priority—I offer unlimited revisions to ensure the design is perfect."
+    },
+    {
+      "icon": "ph-target",
+      "title": "100% Reliability",
+      "description": "With 7+ years of experience, I guarantee professional, eye-catching designs tailored to you."
+    },
+    {
+      "icon": "ph-globe-hemisphere-west",
+      "title": "7+ Years Experience",
+      "description": "Trusted by 200+ brands worldwide with 10k+ successful projects."
+    },
+    {
+      "icon": "ph-lightbulb",
+      "title": "Creative Designs",
+      "description": "Stand out with fresh, original concepts crafted just for you."
+    },
+    {
+      "icon": "ph-currency-dollar",
+      "title": "Affordable Pricing",
+      "description": "Get top-tier designs without breaking the bank."
+    }
+  ],
+  "services": [
+    {
+      "title": "Brand Identity",
+      "items": [
+        "Logo Design",
+        "Brand Style Guide",
+        "Font & Typography"
+      ]
+    },
+    {
+      "title": "Website Design",
+      "items": [
+        "Website Design",
+        "Landing Page Design",
+        "Icon Design"
+      ]
+    },
+    {
+      "title": "Art & Illustration",
+      "items": [
+        "Illustration",
+        "Pattern Design",
+        "Vector Art"
+      ]
+    },
+    {
+      "title": "Marketing Design",
+      "items": [
+        "Social Media Design",
+        "Thumbnails Design",
+        "Poster Design"
+      ]
+    },
+    {
+      "title": "Print Design",
+      "items": [
+        "Flyer Design",
+        "Brochure Design",
+        "Menu Design"
+      ]
+    },
+    {
+      "title": "Cover Packaging",
+      "items": [
+        "Product Design",
+        "Book Design",
+        "Album Cover Design"
+      ]
+    }
+  ],
+  "certificates": [
+    {
+      "title": "Parenting with Purpose",
+      "issuer": "GoEdu • May 21, 2023",
+      "image": "images/parenting.png"
+    },
+    {
+      "title": "Setting & Achieving Goals",
+      "issuer": "GoEdu • Oct 19, 2024",
+      "image": "images/sdfsfde.jpg"
+    },
+    {
+      "title": "Unlock the Algorithm",
+      "issuer": "DIU CPC • Spring 2024",
+      "image": "images/contesr.png"
+    },
+    {
+      "title": "Art & Craft Exhibition (1st Prize)",
+      "issuer": "Green Lawn School • 2015",
+      "image": "images/award.png"
+    }
+  ],
+  "contact": {
+    "phone": "01xxxxxxxx",
+    "whatsapp": "01841389506",
+    "whatsappLink": "https://wa.me/01841389506",
+    "email": "mohsin.diu.cse@gmail.com",
+    "currentAddress": "Uttara, Dhaka",
+    "permanentAddress": "Gopalpur, Tangail",
+    "socials": {
+      "facebook": "https://www.facebook.com/share/17jLDMa4sr/",
+      "linkedin": "https://www.linkedin.com/in/mohsinatic/",
+      "behance": "https://www.behance.net/mohsinatic",
+      "youtube": "https://www.youtube.com/@Mohsinatic"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "mohsin-portfolio-server",
+  "version": "2.0.0",
+  "description": "Express backend server for Md. Mohsin Portfolio single-page app and self-service admin panel.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "generate-hash": "node scripts/generate-password-hash.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1"
+  }
+}

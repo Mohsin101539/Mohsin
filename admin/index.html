@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohsin Portfolio Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <!-- 1. LOGIN VIEW -->
+    <div id="login-view" class="login-container">
+        <h2>Admin Login<span class="dot">.</span></h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="admin-password">Admin Password</label>
+                <input type="password" id="admin-password" placeholder="Enter password..." required autocomplete="current-password">
+            </div>
+            <button type="submit" class="btn" style="width: 100%; justify-content: center;">
+                Login <i class="ph ph-sign-in"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- 2. DASHBOARD VIEW -->
+    <div id="dashboard-view" class="dashboard-container" style="display: none;">
+        <header class="admin-header">
+            <div>
+                <h1>Portfolio Admin Control Panel<span class="dot">.</span></h1>
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Self-Service Content Management System</span>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button id="save-all-btn" class="btn"><i class="ph ph-floppy-disk"></i> Save All Changes</button>
+                <button id="logout-btn" class="btn btn-secondary"><i class="ph ph-sign-out"></i> Logout</button>
+            </div>
+        </header>
+
+        <div id="sections-container">
+            <!-- Dynamically populated accordion forms mapped to content.json keys -->
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast toast-success" style="display: none;">Changes saved successfully!</div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

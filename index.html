@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohsinatic | Portfolio - Md. Mohsin</title>
+    <meta name="description" content="Professional portfolio of Md. Mohsin - Graphic Designer & Computer Science Student. Specializing in C++, Java, Python, and High-CTR Design.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="msvalidate.01" content="D6DC20ACDE60280A713B4BE1075ECE18" />
+    <meta name="p:domain_verify" content="388c7d88d6b22874a09ab1938027d273"/>
+
+    <!-- JSON-LD Person Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Md. Mohsin",
+      "alternateName": "Mohsinatic",
+      "jobTitle": ["Graphic Designer", "Computer Science Student"],
+      "alumniOf": "Daffodil International University",
+      "knowsAbout": ["C++", "Java", "Python", "Graphic Design", "Motion Graphics", "UI Design"],
+      "sameAs": [
+        "https://www.facebook.com/share/17jLDMa4sr/",
+        "https://www.linkedin.com/in/mohsinatic/",
+        "https://www.behance.net/mohsinatic",
+        "https://www.youtube.com/@Mohsinatic",
+        "https://www.fiverr.com/designworldmn"
+      ]
+    }
+    </script>
+</head>
+<body>
+
+    <!-- ATMOSPHERIC MOVING MESH ORBS & MOTION GRAPHICS -->
+    <div class="mesh-orbs-container">
+        <div class="mesh-orb mesh-orb-1"></div>
+        <div class="mesh-orb mesh-orb-2"></div>
+        <div class="mesh-orb mesh-orb-3"></div>
+        <div class="mesh-orb mesh-orb-4"></div>
+        <div class="cyber-floating-shape cyber-shape-1"></div>
+        <div class="cyber-floating-shape cyber-shape-2"></div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">MD. MOHSIN<span class="dot">.</span></div>
+        
+        <!-- View Mode Switcher & Theme Toggle -->
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="view-switcher" id="view-switcher">
+                <button class="mode-pill active" data-mode="all">⚡ All</button>
+                <button class="mode-pill" data-mode="dev">💻 Dev Mode</button>
+                <button class="mode-pill" data-mode="design">🎨 Design Mode</button>
+            </div>
+            <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle Light/Dark Theme">
+                <i class="ph ph-sun"></i>
+            </button>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#hero" class="active">Home</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#design-work">Design Work</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#contact" class="btn-contact">Contact Info</a></li>
+        </ul>
+        <div class="menu-toggle">
+            <i class="ph ph-list"></i>
+        </div>
+    </nav>
+
+    <!-- SECTION 1: HERO -->
+    <header id="hero" class="hero">
+        <div class="hero-spotlight" id="hero-spotlight"></div>
+        <div class="hero-content reveal">
+            <span class="badge" id="hero-badge">GRAPHIC DESIGNER & CS STUDENT</span>
+            <h1 id="hero-headline">Designing Logic,<br> <span class="text-gradient">Coding Creativity.</span></h1>
+            <p class="hero-sub" id="hero-subtitle">Merging technical expertise in C++, Java, & Python with 5-star skills in <span id="hero-rotator" style="color:var(--primary-color); font-weight:700; transition: opacity 0.3s ease;">High-CTR Graphic Design</span>.</p>
+            <div class="cta-group">
+                <a href="#projects" class="btn-secondary" id="hero-dev-btn">Explore as Developer <i class="ph ph-code"></i></a>
+                <a href="#design-work" class="btn-primary" id="hero-design-btn">Explore as Designer <i class="ph ph-paint-brush"></i></a>
+            </div>
+        </div>
+        
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+    </header>
+
+    <!-- SECTION 2: ABOUT -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-grid reveal">
+                
+                <div class="about-image-wrapper">
+                    <div class="image-frame">
+                        <img src="images/Mohsin.jpg" alt="Md. Mohsin" class="profile-img" id="about-img">
+                    </div>
+                    <div class="experience-badge">
+                        <span class="number" id="about-exp-num">3+</span>
+                        <span class="text" id="about-exp-text">Years<br>Experience</span>
+                    </div>
+                </div>
+
+                <div class="about-content">
+                    <h2 class="section-title" id="about-sec-title">Who I Am</h2>
+                    <h3 class="role-title" id="about-role-title">MD. MOHSIN <br> Graphics Designer & Computer Science Student at <span class="highlight">DIU</span></h3>
+                    
+                    <div id="about-bios">
+                        <!-- Rendered dynamically from content.json -->
+                    </div>
+
+                    <div class="skills-mini" id="about-skills">
+                        <!-- Rendered dynamically -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: EDUCATION -->
+    <section id="education" class="timeline-section">
+        <div class="container">
+            <h2 class="section-center-title reveal">My Education Journey</h2>
+            <div class="timeline reveal" id="education-timeline">
+                <!-- Rendered dynamically from content.json -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: CSE PROJECTS -->
+    <section id="projects" class="portfolio-category">
+        <div class="container">
+            <h2 class="category-title reveal" style="margin-left:0;">CSE Projects <span class="count">(Code & Dev)</span></h2>
+            <div class="project-grid reveal" id="projects-grid">
+                <!-- Rendered dynamically from content.json -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: DESIGN WORK MARQUEES -->
+    <section id="design-work" class="portfolio-category">
+        <div class="container">
+            <span class="badge reveal">CREATIVE GALLERY</span>
+            <h2 class="section-center-title reveal" style="text-align:left; margin-bottom: 20px;">Design Showcase</h2>
+        </div>
+
+        <div id="design-categories-container">
+            <!-- Dynamic design categories rendered from content.json -->
+        </div>
+    </section>
+
+    <!-- SECTION 6: EXPERIENCE & WORK HISTORY -->
+    <section id="experience" class="experience-section">
+        <div class="container">
+            <h2 class="section-center-title reveal">Experience & Work History</h2>
+            
+            <!-- Work Experience Cards (Includes Fiverr Experience) -->
+            <div id="experience-cards" class="reveal">
+                <!-- Rendered dynamically from content.json -->
+            </div>
+
+            <!-- Client Feedback Section (Placed right after Fiverr Experience) -->
+            <div id="testimonials" class="reviews-section reveal" style="padding: 60px 0 20px; background: transparent;">
+                <h2 class="section-center-title">Client Feedback</h2>
+                <div class="review-grid" id="testimonials-grid">
+                    <!-- Rendered dynamically from content.json -->
+                </div>
+            </div>
+
+            <!-- Stats & Course Promo -->
+            <div class="course-section reveal" style="background:transparent; padding:40px 0;">
+                <div class="stats-row" id="stats-row">
+                    <!-- Rendered dynamically -->
+                </div>
+
+                <div class="course-wrapper" id="course-wrapper">
+                    <!-- Rendered dynamically -->
+                </div>
+            </div>
+
+            <!-- Brand Logos Marquee -->
+            <div class="portfolio-category reveal" style="padding:40px 0; border:none;">
+                <h3 class="category-title" style="text-align: center; border: none;">Brands I've Worked With</h3>
+                <div class="marquee-container">
+                    <div class="marquee-content scroll-left" id="brands-marquee">
+                        <!-- Rendered dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Choose Me -->
+            <div class="why-choose-section reveal" style="border:none;">
+                <h3 class="section-center-title">Why choose me?</h3>
+                <div class="features-grid" id="why-choose-grid">
+                    <!-- Rendered dynamically -->
+                </div>
+            </div>
+
+            <!-- Services Provided -->
+            <div class="services-section reveal" style="border:none;">
+                <h3 class="section-center-title">Services I Provide</h3>
+                <div class="services-grid" id="services-grid">
+                    <!-- Rendered dynamically -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 8: CERTIFICATES & AWARDS -->
+    <section id="certificates" class="cert-section">
+        <div class="container">
+            <h2 class="section-center-title reveal">Certificates & Awards</h2>
+            <div class="cert-grid reveal" id="cert-grid">
+                <!-- Rendered dynamically from content.json -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 9: CONTACT -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-center-title reveal">Let's Work Together</h2>
+            <div class="contact-grid reveal">
+                
+                <!-- Info Cards -->
+                <div class="contact-info" id="contact-info-cards">
+                    <!-- Rendered dynamically -->
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form-wrapper">
+                    <form class="contact-form" id="public-contact-form">
+                        <h3>Send a Message</h3>
+                        
+                        <div class="input-group">
+                            <label for="contact-name">Your Name</label>
+                            <input type="text" id="contact-name" name="name" placeholder="John Doe" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="contact-email">Your Email</label>
+                            <input type="email" id="contact-email" name="email" placeholder="john@example.com" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="contact-subject">Subject</label>
+                            <input type="text" id="contact-subject" name="subject" placeholder="Project Inquiry" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="contact-message">Message</label>
+                            <textarea id="contact-message" name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-primary full-width">
+                            Send Message <i class="ph ph-paper-plane-right"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                
+                <div class="footer-brand">
+                    <div class="logo">MD. MOHSIN<span class="dot">.</span></div>
+                    <p>Merging technical expertise in CS with high-end creative design skills.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#hero">Home</a></li>
+                        <li><a href="#education">Education</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#design-work">Design Work</a></li>
+                        <li><a href="#experience">Experience</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-social">
+                    <h3>Let's Connect</h3>
+                    <div class="f-social-icons" id="footer-social-icons">
+                        <a href="https://www.facebook.com/share/17jLDMa4sr/"><i class="ph ph-facebook-logo"></i></a>
+                        <a href="https://www.linkedin.com/in/mohsinatic/"><i class="ph ph-linkedin-logo"></i></a>
+                        <a href="https://www.behance.net/mohsinatic"><i class="ph ph-behance-logo"></i></a>
+                        <a href="https://wa.me/8801841389506"><i class="ph ph-whatsapp-logo"></i></a>
+                        <a href="https://www.youtube.com/@Mohsinatic"><i class="ph ph-youtube-logo"></i></a>
+                    </div>
+                    <a href="#contact" class="footer-email" id="footer-email-link">mohsin.diu.cse@gmail.com</a>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Md. Mohsin. All Rights Reserved.</p>
+                <p>Designed & Developed by <span class="highlight">Mohsin</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LIGHTBOX PREVIEW MODAL -->
+    <div id="lightbox-modal" class="lightbox-modal" style="display: none;">
+        <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+        <div class="lightbox-dialog">
+            <button id="lightbox-close" class="lightbox-close-btn" aria-label="Close modal"><i class="ph ph-x"></i></button>
+            <div class="lightbox-body">
+                <div class="lightbox-img-box">
+                    <img id="lightbox-img" src="" alt="Design Preview">
+                </div>
+                <div class="lightbox-meta">
+                    <h3 id="lightbox-title">Design Artwork Preview</h3>
+                    <p id="lightbox-desc">High-resolution showcase artwork created by Md. Mohsin.</p>
+                    <div class="lightbox-actions">
+                        <a id="lightbox-direct-link" href="#" target="_blank" class="btn-primary">View Full Resolution <i class="ph ph-arrow-up-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast toast-success" style="display: none;">Copied to clipboard!</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
