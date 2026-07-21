@@ -169,6 +169,7 @@ function renderFormSections(data) {
         { key: 'experience', title: 'Work Experience' },
         { key: 'stats', title: 'Key Statistics' },
         { key: 'coursePromo', title: 'Course Banner' },
+        { key: 'brands', title: 'Brands I\'ve Worked With (Logos & Avatars)' },
         { key: 'certificates', title: 'Certificates & Awards' },
         { key: 'whyChooseMe', title: 'Why Choose Me' },
         { key: 'services', title: 'Services List' },
@@ -263,8 +264,24 @@ function renderSectionBody(key, secData) {
         return `
             <div class="form-group"><label>Course Title</label><input type="text" id="course-title" value="${escapeHtml(secData.title || '')}"></div>
             <div class="form-group"><label>Description</label><textarea id="course-desc" rows="3">${escapeHtml(secData.description || '')}</textarea></div>
-            <div class="form-group"><label>Enrollment Link</label><input type="text" id="course-link" value="${escapeHtml(secData.enrollLink || '')}"></div>
-            ${createImageUploader('course-image', secData.image, 'Course Graphic')}
+            <div class="form-group"><label>Enroll Link</label><input type="text" id="course-link" value="${escapeHtml(secData.enrollLink || '')}"></div>
+            ${createImageUploader('course-image', secData.image, 'Course Banner Image')}
+        `;
+    }
+
+    if (key === 'brands') {
+        const brandsArr = Array.isArray(secData) ? secData : [];
+        return `
+            <div style="padding: 10px 0;">
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">
+                    Upload new brand logos or paste image URLs for the circular avatar icons displayed in the "Brands I've Worked With" infinite marquee section.
+                </p>
+                ${renderArraySection('brands', brandsArr.map(imgUrl => ({ image: imgUrl })), (item, idx) => `
+                    <div class="form-group">
+                        ${createImageUploader(`brand-img-${idx}`, item.image || '', `Brand Logo #${idx + 1}`)}
+                    </div>
+                `)}
+            </div>
         `;
     }
 
@@ -656,7 +673,7 @@ function saveSection(secKey) {
 
 function saveAllSections() {
     const fullPayload = {};
-    const keys = ['hero', 'about', 'testimonials', 'education', 'projects', 'designWork', 'experience', 'stats', 'coursePromo', 'certificates', 'whyChooseMe', 'services', 'contact'];
+    const keys = ['hero', 'about', 'testimonials', 'education', 'projects', 'designWork', 'experience', 'stats', 'coursePromo', 'brands', 'certificates', 'whyChooseMe', 'services', 'contact'];
 
     keys.forEach(k => {
         fullPayload[k] = collectSectionData(k);
@@ -730,6 +747,18 @@ function collectSectionData(secKey) {
             enrollLink: getValue('course-link'),
             image: getValue('course-image')
         };
+    }
+
+    if (secKey === 'brands') {
+        const cardEls = document.querySelectorAll('#array-list-brands .array-card');
+        const arr = [];
+        cardEls.forEach(card => {
+            const hiddenImg = card.querySelector('input[type="hidden"]');
+            if (hiddenImg && hiddenImg.value) {
+                arr.push(hiddenImg.value);
+            }
+        });
+        return arr;
     }
 
     if (secKey === 'contact') {
