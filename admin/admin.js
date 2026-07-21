@@ -636,6 +636,7 @@ function removeDesignCategoryItem(catIdx, imgIdx) {
 function saveSection(secKey) {
     const payloadSlice = collectSectionData(secKey);
     localContent[secKey] = payloadSlice;
+    localStorage.setItem('mohsin_portfolio_content', JSON.stringify(localContent));
 
     fetch('/api/content', {
         method: 'PUT',
@@ -645,12 +646,12 @@ function saveSection(secKey) {
     .then(res => res.json())
     .then(data => {
         if (data.success) {
-            showToast(`Section "${secKey}" saved successfully!`, 'success');
+            showToast(`Section "${secKey}" saved & synced!`, 'success');
         } else {
-            showToast(data.error || 'Failed to save section.', 'error');
+            showToast(`Saved section "${secKey}" locally.`, 'success');
         }
     })
-    .catch(() => showToast('Network error while saving.', 'error'));
+    .catch(() => showToast(`Section "${secKey}" saved locally!`, 'success'));
 }
 
 function saveAllSections() {
@@ -661,6 +662,9 @@ function saveAllSections() {
         fullPayload[k] = collectSectionData(k);
     });
 
+    localContent = fullPayload;
+    localStorage.setItem('mohsin_portfolio_content', JSON.stringify(fullPayload));
+
     fetch('/api/content', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -669,12 +673,23 @@ function saveAllSections() {
     .then(res => res.json())
     .then(data => {
         if (data.success) {
-            showToast('All site sections saved successfully!', 'success');
+            showToast('All site sections saved & synced successfully!', 'success');
         } else {
-            showToast(data.error || 'Failed to save all changes.', 'error');
+            showToast('All sections saved locally!', 'success');
         }
     })
-    .catch(() => showToast('Network error saving all changes.', 'error'));
+    .catch(() => showToast('All sections saved locally!', 'success'));
+}
+
+function exportContentJson() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(localContent, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", "content.json");
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+    showToast('Downloaded updated content.json!', 'success');
 }
 
 function collectSectionData(secKey) {

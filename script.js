@@ -147,12 +147,22 @@ function initScrollObserver() {
 
 // 3. Load Content from content.json & Render
 function loadSiteContent() {
+    const savedLocal = localStorage.getItem('mohsin_portfolio_content');
+    if (savedLocal) {
+        try {
+            const parsed = JSON.parse(savedLocal);
+            renderSite(parsed);
+        } catch(e) {}
+    }
+
     fetch('/content.json')
         .then(res => {
             if (!res.ok) throw new Error('Failed to load content.json');
             return res.json();
         })
-        .then(data => renderSite(data))
+        .then(data => {
+            if (!savedLocal) renderSite(data);
+        })
         .catch(err => console.warn('Using fallback inline HTML:', err));
 }
 
