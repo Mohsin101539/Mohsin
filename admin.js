@@ -239,7 +239,16 @@ function renderSectionBody(key, secData) {
     }
 
     if (key === 'messages') {
-        const msgs = JSON.parse(localStorage.getItem('mohsin_portfolio_messages') || '[]');
+        const localMsgs = JSON.parse(localStorage.getItem('mohsin_portfolio_messages') || '[]');
+        const fileMsgs = Array.isArray(localContent.messages) ? localContent.messages : [];
+        const msgsMap = new Map();
+        [...localMsgs, ...fileMsgs].forEach(m => {
+            if (m && (m.id || m.email)) {
+                msgsMap.set(m.id || (m.email + '_' + m.date), m);
+            }
+        });
+        const msgs = Array.from(msgsMap.values());
+
         if (msgs.length === 0) {
             return `
                 <div style="padding: 20px 0; text-align: center; color: var(--text-muted);">

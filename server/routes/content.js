@@ -33,7 +33,7 @@ router.put('/', requireAuth, (req, res) => {
     const validKeys = [
         'hero', 'about', 'testimonials', 'education', 'projects',
         'designWork', 'experience', 'stats', 'coursePromo',
-        'brands', 'whyChooseMe', 'services', 'certificates', 'contact'
+        'brands', 'whyChooseMe', 'services', 'certificates', 'contact', 'messages'
     ];
 
     const payloadKeys = Object.keys(updatedContent);
