@@ -711,7 +711,7 @@ body.mode-design .timeline-section#education {
     background: var(--bg-color-alt);
 }
 .why-choose-section, .services-section {
-    padding: 80px 0; border-bottom: 1px solid rgba(255,255,255,0.05); overflow: hidden;
+    padding: 80px 5%; border-bottom: 1px solid rgba(255,255,255,0.05); overflow: hidden;
     background: var(--bg-color);
 }
 .category-title {
@@ -733,7 +733,15 @@ body.mode-design .timeline-section#education {
 }
 .section-center-title { text-align: center; font-size: 2.2rem; margin-bottom: 60px; color: var(--text-main); }
 
-.marquee-container { display: flex; overflow: hidden; width: 100%; margin-bottom: 20px; position: relative; }
+.marquee-container { 
+    display: flex; 
+    overflow: hidden; 
+    width: 100%; 
+    margin-bottom: 20px; 
+    position: relative;
+    padding: 18px 0;
+    margin-top: -10px;
+}
 .marquee-container::before, .marquee-container::after {
     content: ''; position: absolute; top: 0; height: 100%; width: 100px; z-index: 2; pointer-events: none;
 }
@@ -743,6 +751,7 @@ body.mode-design .timeline-section#education {
     display: flex; 
     width: max-content;
     will-change: transform;
+    align-items: center;
 }
 .marquee-content:hover { animation-play-state: paused !important; }
 
