@@ -515,12 +515,13 @@ function renderSectionBody(key, secData) {
 
 // Helper: Image Uploader with Instant Upload + Preview
 function createImageUploader(id, currentUrl, labelText) {
+    const srcPath = currentUrl ? (currentUrl.startsWith('data:') || currentUrl.startsWith('http') ? currentUrl : '/' + currentUrl) : 'https://via.placeholder.com/80x60?text=No+Img';
     return `
         <div class="form-group">
             <label>${labelText}</label>
-            <input type="hidden" id="${id}" value="${escapeHtml(currentUrl || '')}">
+            <input type="hidden" id="${id}" data-field="image" value="${escapeHtml(currentUrl || '')}">
             <div class="image-preview-wrapper">
-                <img src="/${currentUrl || 'images/Mohsin.jpg'}" id="preview-${id}" class="image-preview-thumb" onerror="this.src='https://via.placeholder.com/80x60?text=No+Img'">
+                <img src="${srcPath}" id="preview-${id}" class="image-preview-thumb" onerror="this.src='https://via.placeholder.com/80x60?text=No+Img'">
                 <input type="file" accept="image/jpeg,image/png,image/webp" onchange="uploadFile(this, '${id}', 'preview-${id}')">
             </div>
         </div>
@@ -557,15 +558,20 @@ function moveArrayItem(secKey, idx, direction) {
     const item = arr.splice(idx, 1)[0];
     arr.splice(targetIdx, 0, item);
 
+    localStorage.setItem('mohsin_portfolio_content', JSON.stringify(localContent));
+
     renderFormSections(localContent);
     const body = document.getElementById(`body-${secKey}`);
     if (body) body.classList.add('open');
+    showToast(`Reordered item #${idx + 1}! Save section to persist.`, 'success');
 }
 
 function addArrayItem(secKey) {
     localContent[secKey] = collectSectionData(secKey);
     if (!Array.isArray(localContent[secKey])) localContent[secKey] = [];
     localContent[secKey].push({});
+    localStorage.setItem('mohsin_portfolio_content', JSON.stringify(localContent));
+
     renderFormSections(localContent);
     const body = document.getElementById(`body-${secKey}`);
     if (body) body.classList.add('open');
@@ -575,6 +581,8 @@ function removeArrayItem(secKey, idx) {
     localContent[secKey] = collectSectionData(secKey);
     if (Array.isArray(localContent[secKey])) {
         localContent[secKey].splice(idx, 1);
+        localStorage.setItem('mohsin_portfolio_content', JSON.stringify(localContent));
+
         renderFormSections(localContent);
         const body = document.getElementById(`body-${secKey}`);
         if (body) body.classList.add('open');
